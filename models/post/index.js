@@ -1,31 +1,31 @@
 const mongoose = require( 'mongoose' );
 
 let postSchema = mongoose.Schema( {
-	user : {
+	userName : {
 		type      : String,
 		required  : true,
-		lowercase : true
-
+		lowercase : true,
+		index     : true
 	},
 
-	content: {
-		type: String,
-		required: true
+	content : {
+		type     : String,
+		required : true
 	},
 
 	createdOn : {
-		type: Date,
-		default: Date.now()
+		type    : Date,
+		default : Date.now()
 	},
 
 	lastUpdatedOn : {
-		type: Date,
-		default: Date.now()
+		type    : Date,
+		default : Date.now()
 	},
 
 	likes : {
-		type: Number,
-		default: 0
+		type    : Number,
+		default : 0
 	}
 } );
 

@@ -1,7 +1,6 @@
 const config = require( '../config' ),
 			User   = require( './user' ),
-      Post   = require( './post' ),
-      tokenUtil = require( '../lib/token' );
+      Post   = require( './post' );
 
 let routes = ( app ) => {
 	app.use( ( req, res, next ) => {
@@ -17,9 +16,9 @@ let routes = ( app ) => {
 		return next();
 	}, User );
 
-/*	app.use( `${config.appRoot}post`, ( req, res, next ) => {
+	app.use( `${config.appRoot}post`, ( req, res, next ) => {
 		return next();
-	}, Post );*/
+	}, Post );
 
 };
 
