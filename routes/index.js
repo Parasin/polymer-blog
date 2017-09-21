@@ -1,6 +1,7 @@
 const config = require( '../config' ),
 			User   = require( './user' ),
-      Post   = require( './post' );
+			Post   = require( './post' ),
+			Auth   = require( './auth' );
 
 let routes = ( app ) => {
 	app.use( ( req, res, next ) => {
@@ -20,6 +21,9 @@ let routes = ( app ) => {
 		return next();
 	}, Post );
 
+	app.use( `${config.appRoot}auth`, ( req, res, next ) => {
+		return next();
+	}, Auth );
 };
 
 module.exports = routes;
