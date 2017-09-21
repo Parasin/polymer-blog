@@ -1,0 +1,34 @@
+{
+  "name": "shop",
+  "version": "2.0.0",
+  "authors": [
+    "The Polymer Authors"
+  ],
+  "private": true,
+  "dependencies": {
+    "polymer": "polymer/polymer#^2.0.0",
+    "app-layout": "polymerelements/app-layout#^2.0.0",
+    "app-route": "polymerelements/app-route#^2.0.0",
+    "app-storage": "polymerelements/app-storage#^2.0.0",
+    "iron-flex-layout": "polymerelements/iron-flex-layout#^2.0.0",
+    "iron-form": "PolymerElements/iron-form#^2.0.0",
+    "iron-icon": "polymerelements/iron-icon#^2.0.0",
+    "iron-iconset-svg": "polymerelements/iron-iconset-svg#^2.0.0",
+    "iron-media-query": "polymerelements/iron-media-query#^2.0.0",
+    "iron-overlay-behavior": "polymerelements/iron-overlay-behavior#^2.0.0",
+    "iron-pages": "polymerelements/iron-pages#^2.0.0",
+    "iron-selector": "polymerelements/iron-selector#^2.0.0",
+    "paper-icon-button": "polymerelements/paper-icon-button#^2.0.0",
+    "paper-spinner": "polymerelements/paper-spinner#^2.0.0",
+    "iron-icons": "PolymerElements/iron-icons#^2.0.1",
+    "paper-tooltip": "PolymerElements/paper-tooltip#^2.0.1",
+    "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
+    "neon-animation": "PolymerElements/neon-animation#^2.0.1",
+    "paper-input": "PolymerElements/paper-input#^2.0.2",
+    "paper-button": "PolymerElements/paper-button#^2.0.0",
+    "iron-localstorage": "PolymerElements/iron-localstorage#^2.0.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "^6.0.0"
+  }
+}

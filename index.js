@@ -29,7 +29,11 @@ mongoose.connect( config.dbUrl, {
 				interval : '1d',
 				path     : logDirectory
 			} );
+	app.set( 'view engine', 'html' );
+	app.set( 'views', path.join( __dirname, 'public' ) );
 
+	app.use( express.static( path.join( __dirname, 'public' ) ) );
+	app.use( express.static( path.join( __dirname, 'node_modules' ) ) );
 	app.use( morgan( 'dev', { stream : accessLogStream } ) );
 
 	app.use( bodyParser.urlencoded( {

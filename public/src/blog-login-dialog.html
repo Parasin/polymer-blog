@@ -1,0 +1,271 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animation.html">
+
+
+<dom-module id="blog-login-dialog">
+
+	<template>
+
+		<style>
+
+			:host {
+				display                       : block;
+				position                      : relative;
+				--app-primary-color           : #202020;
+				--app-secondary-color         : #757575;
+				--app-accent-color            : #172C50;
+				--paper-button-ink-color      : var(--app-accent-color);
+				--paper-icon-button-ink-color : var(--app-accent-color);
+				--paper-spinner-color         : var(--app-accent-color);
+				-webkit-tap-highlight-color   : rgba(0, 0, 0, 0);
+				color                         : var(--app-primary-color);
+			}
+
+			paper-icon-button {
+				color : var(--app-primary-color);
+			}
+
+			paper-button:disabled,
+			paper-button[disabled] {
+				border           : 1px solid #999999;
+				background-color : #cccccc;
+				color            : #666666;
+			}
+
+			@-webkit-keyframes bounce {
+				0% {
+					-webkit-transform : translateY(0);
+					opacity           : 0;
+				}
+				20% {
+					-webkit-transform : translateY(0);
+				}
+				50% {
+					-webkit-transform : translateY(0);
+				}
+				40% {
+					-webkit-transform : translateY(-25px);
+				}
+				60% {
+					-webkit-transform : translateY(-15px);
+				}
+				80% {
+					-webkit-transform : translateY(0);
+				}
+				100% {
+					-webkit-transform : translateY(0);
+					opacity           : 1;
+				}
+			}
+
+			@keyframes bounce {
+				0% {
+					-webkit-transform : translateY(0);
+					opacity           : 0;
+				}
+				20% {
+					-webkit-transform : translateY(0);
+				}
+				50% {
+					-webkit-transform : translateY(0);
+				}
+				40% {
+					-webkit-transform : translateY(-25px);
+				}
+				60% {
+					-webkit-transform : translateY(-15px);
+				}
+				80% {
+					-webkit-transform : translateY(0);
+				}
+				100% {
+					-webkit-transform : translateY(0);
+					opacity           : 1;
+				}
+			}
+
+			.loginSuccess /*[href*="w3schools"]*/
+			{
+				-webkit-animation-name      : bounce;
+				animation-name              : bounce;
+				color                       : #0b8043;
+				height                      : 40px;
+				width                       : 40px;
+				top                         : 15px;
+				position                    : relative;
+				float                       : right;
+				-webkit-animation-duration  : 1s;
+				animation-duration          : 1s;
+				-webkit-animation-fill-mode : both;
+				animation-fill-mode         : both;
+			}
+
+			[hidden] {
+				display : none !important;
+			}
+
+			.demo-label {
+				box-sizing       : border-box;
+				width            : 120px;
+				padding          : 6px;
+				margin           : 8px auto 0;
+				background-color : var(--app-primary-color);
+				color            : white;
+				text-transform   : uppercase;
+			}
+
+			/* small screen */
+			@media (max-width : 767px) {
+				:host {
+					padding-top : 64px;
+				}
+			}
+
+		</style>
+		<iron-ajax id="loginIA"
+				   debounce-duration="3000"
+				   url="http://localhost:3000/auth"
+				   content-type="application/json"
+				   handle-as="json"
+				   method="POST"
+				   body="[[ formBody ]]"
+				   on-response="_confirmComplete"
+				   last-response="{{ response }}"
+				   on-error="_confirmError">
+		</iron-ajax>
+
+		<paper-dialog id="dialog" entry-animation="scale-up-animation"
+					  exit-animation="fade-out-animation" with-backdrop>
+			<h2>Login</h2>
+			<iron-form id="loginForm">
+				<form>
+					<paper-input auto-validate
+								 auto-focus
+								 id="loginUsername"
+								 label="Username or email"
+								 required
+								 error-message="Username or email is required"
+								 invalid="{{ usernameInvalid }}">
+						<iron-icon icon="face" slot="prefix" style="padding-right: 5px; opacity: 0.8"></iron-icon>
+					</paper-input>
+					<paper-input auto-validate
+								 id="loginPassword"
+								 label="Password"
+								 type="password"
+								 required
+								 error-message="Must be minimum of 8 characters"
+								 minlength="8"
+								 value="{{ password }}"
+								 invalid="{{ passwordInvalid }}">
+					</paper-input>
+					<div>
+						<paper-button id="loginSubmit"
+									  class="demo-label"
+									  icon="send"
+									  on-tap="_submitLogin"
+									  disabled="[[ _computeLoginDisabled( usernameInvalid, password ) ]]"
+									  style="margin-top: 16px">
+							<iron-icon icon="send" style="position: relative; right: 6px;"></iron-icon>
+							<span style="position: relative; left: 6px;">Submit</span>
+						</paper-button>
+						<span hidden$="[[ !authenticated ]]">
+							<iron-icon icon="check-circle" class="loginSuccess"></iron-icon>
+						</span>
+					</div>
+				</form>
+			</iron-form>
+		</paper-dialog>
+	</template>
+
+	<script>
+			class BlogLoginDialog extends Polymer.Element {
+
+				static get is () {
+					return 'blog-login-dialog';
+				}
+
+				static get properties () {
+					return {
+						_loginDisabled : {
+							type     : Boolean,
+							value    : true,
+							computed : '_computeLoginDisabled(usernamePopulated, passwordPopulated)'
+						},
+
+						authenticated : {
+							type  : Boolean,
+							value : false
+						}
+					};
+				}
+
+				static get observers () {
+					return [];
+				}
+
+				constructor () {
+					super();
+				}
+
+				ready () {
+					super.ready();
+				}
+
+				_submitLogin () {
+					if ( !( this.$.loginUsername.invalid || this.$.loginPassword.invalid ) && !this.authenticated ) {
+						this.formBody = {
+							userName : this.$.loginUsername.value,
+							password : this.$.loginPassword.value
+						};
+						this.$.loginIA.generateRequest();
+					}
+				}
+
+				_confirmComplete ( e ) {
+					if ( this.response && this.response.auth ) {
+						this.set( 'authenticated', this.response.auth );
+						this.dispatchEvent( new CustomEvent( 'authenticated', {
+							bubbles  : true,
+							composed : true,
+							detail : this.response
+						} ) );
+						setTimeout( function () {
+							this.$.dialog.close();
+						}.bind( this ), 2000 );
+					}
+				}
+
+				_confirmError ( e ) {
+					//this.$.dialog.close();
+					console.error( e.detail );
+				}
+
+				_computeLoginDisabled ( usernameInvalid, password ) {
+					return !( usernameInvalid || ( password && password.length ? password.length >= 8 : false ) );
+				}
+			}
+
+			customElements.define( BlogLoginDialog.is, BlogLoginDialog );
+	</script>
+</dom-module>
