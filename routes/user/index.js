@@ -38,6 +38,28 @@ router.get( '/', tokenUtil.isAuthenticated, ( req, res ) => {
 	} );
 } );
 
+router.get( '/social', tokenUtil.isAuthenticated, ( req, res ) => {
+	let path          = 'user',
+			token         = tokenUtil.verify( req.encodedToken ),
+			requestObject = {
+				method  : 'GET',
+				uri     : AuthService.computeUri( path ),
+				headers : { 'Content-Type' : 'application/json', 'x-access-token' : req.encodedToken }
+			};
+
+		User.findById( { _id : token._id }, ( err, user ) => {
+			if ( err ) {
+				return res.status( 500 ).send( { error : 'Problem finding user' } );
+			} else if ( !user ) {
+				return res.status( 404 ).send( { error : 'No user found' } );
+			}
+
+			return res.send( user );
+		} ).catch( ( err ) => {
+			res.status( err.statusCode ).send( err );
+		} );
+} );
+
 //GET :id
 router.get( '/:id', tokenUtil.isAuthenticated, ( req, res ) => {
 	let path          = 'user/' + req.params.id,

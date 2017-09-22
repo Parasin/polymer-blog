@@ -22,7 +22,6 @@ router.post( '/', ( req, res ) => {
 				json    : req.body,
 				headers : { 'Content-Type' : 'application/json' }
 			};
-
 	AuthService.request( requestObject ).then( ( result ) => {
 		if ( result ) {
 			let token = tokenUtil.verify( result.body.token );

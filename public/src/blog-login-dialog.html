@@ -145,7 +145,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		</style>
 		<iron-ajax id="loginIA"
 				   debounce-duration="3000"
-				   url="http://localhost:3000/auth"
+				   url="http://localhost:3001/auth"
 				   content-type="application/json"
 				   handle-as="json"
 				   method="POST"
@@ -243,12 +243,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				}
 
 				_confirmComplete ( e ) {
-					if ( this.response && this.response.auth ) {
-						this.set( 'authenticated', this.response.auth );
+					if ( this.response && this.response.user && this.response.token ) {
+						this.set( 'authenticated', true );
 						this.dispatchEvent( new CustomEvent( 'authenticated', {
 							bubbles  : true,
 							composed : true,
-							detail : this.response
+							detail   : this.response
 						} ) );
 						setTimeout( function () {
 							this.$.dialog.close();
