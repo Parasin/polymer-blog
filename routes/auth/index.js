@@ -1,7 +1,5 @@
-const User        = require( '../../models/user/' ),
-			AuthService = require( '../../lib/authService' ),
-			tokenUtil   = require( '../../lib/token.js' ),
-			_           = require( 'underscore' );
+const AuthService = require( '../../lib/authService' ),
+			tokenUtil   = require( '../../lib/token.js' );
 
 let express = require( 'express' ),
 		router  = express.Router();
