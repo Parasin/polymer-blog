@@ -14,7 +14,7 @@ let routes = ( app ) => {
 		next();
 	} );
 
-	app.use( `${config.appRoot}user`, ( req, res, next ) => {
+	app.use( `${config.appRoot}`, ( req, res, next ) => {
 		return next();
 	}, Base );
 

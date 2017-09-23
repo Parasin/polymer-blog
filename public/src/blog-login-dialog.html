@@ -143,9 +143,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			}
 
 		</style>
+		<!-- TODO handle error during login -->
 		<iron-ajax id="loginIA"
 				   debounce-duration="3000"
-				   url="http://localhost:3001/auth"
+				   url="/auth"
 				   content-type="application/json"
 				   handle-as="json"
 				   method="POST"
