@@ -11,57 +11,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-styles/element-styles/paper-material-styles.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="shop-button.html">
 
 <dom-module id="blog-grid-layout">
 
 	<template>
 
-		<style include="shop-button app-grid-style">
+		<style include="shop-button app-grid-style paper-material-styles">
 
 			:host {
-				display: block;
-				margin: 0 12vw;
-				--app-grid-columns: 4;
-				--app-grid-gutter: 6px;
-				--app-grid-expandible-item-columns: 2;
-				--app-grid-item-height: 14vw;
+				display                            : block;
+				margin                             : 5vh 12vw;
+				--app-grid-columns                 : 2;
+				--app-grid-gutter                  : 6px;
+				--app-grid-expandible-item-columns : 2;
+				--app-grid-item-height             : 20vh;
 			}
 
 			ul {
-				padding: 0;
-				list-style: none;
-			}
-
-			h1 {
-				font-family: 'Roboto', 'Noto', sans-serif;
-				text-align: center;
-				font-size: 18px;
-				line-height: 30px;
-				font-weight: 400;
-				margin: 10px 20px;
+				padding    : 0;
+				list-style : none;
 			}
 
 			.item {
-				list-style: none;
-				background-color: white;
+				list-style                 : none;
+				background-color           : white;
+				-webkit-transition         : box-shadow 0.3s; /* Safari */
+				transition                 : box-shadow 0.3s;
+				transition-timing-function : linear;
 			}
 
-			item:hover {
-
+			.item:hover {
+				box-shadow : 0 0 10px #888888;
 			}
 
-			@media (min-width: 800px) {
+			@media (min-width : 800px) {
 				.item:nth-child(5n+1) {
 					@apply --app-grid-expandible-item;
 				}
 			}
 
-			@media (max-width: 767px) {
+			@media (max-width : 767px) {
 				:host {
-					--app-grid-columns: 1;
-					--app-grid-gutter: 2px;
-					--app-grid-expandible-item-columns: 1;
+					--app-grid-columns                 : 1;
+					--app-grid-gutter                  : 2px;
+					--app-grid-expandible-item-columns : 1;
+					margin                             : 0;
 				}
 
 				.item:nth-child(3n+1) {
@@ -69,11 +66,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				}
 			}
 
+			.card-header {
+				@apply --paper-font-headline;
+			}
+
 		</style>
-		<div >
+		<div>
 			<ul class="app-grid">
 				<template is="dom-repeat" items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
-					<paper-card class="item" elevation="3"></paper-card>
+					<paper-card class="item" elevation="3" heading="Heading ( [[ item ]] )" style="overflow: hidden; height: 60%">
+						<div class="card-content">
+							<p class="card-header">Brief Description</p>
+							<p>Small preview of content where possible</p>
+						</div>
+						<div class="card-actions">
+							<paper-icon-button icon="favorite"></paper-icon-button>
+							<paper-icon-button icon="bookmark"></paper-icon-button>
+							<paper-icon-button icon="social:share"></paper-icon-button>
+						</div>
+					</paper-card>
 				</template>
 			</ul>
 		</div>
