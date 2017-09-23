@@ -1,7 +1,8 @@
 const config = require( '../config' ),
 			User   = require( './user' ),
 			Post   = require( './post' ),
-			Auth   = require( './auth' );
+			Auth   = require( './auth' ),
+			Base   = require( './base' );
 
 let routes = ( app ) => {
 	app.use( ( req, res, next ) => {
@@ -12,6 +13,10 @@ let routes = ( app ) => {
 		res.removeHeader( 'X-Powered-By' );
 		next();
 	} );
+
+	app.use( `${config.appRoot}user`, ( req, res, next ) => {
+		return next();
+	}, Base );
 
 	app.use( `${config.appRoot}user`, ( req, res, next ) => {
 		return next();
