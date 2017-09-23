@@ -200,8 +200,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				}
 
 				_getSocial () {
-					this.params = { 'x-access-token' : this.token };
-					this.$.profileIA.generateRequest();
+					if ( this.token ) {
+						this.params = { 'x-access-token' : this.token };
+						this.$.profileIA.generateRequest();
+					}
 				}
 
 				ready () {

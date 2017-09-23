@@ -1,0 +1,132 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="shop-button.html">
+
+<dom-module id="blog-grid-layout">
+
+	<template>
+
+		<style include="shop-button app-grid-style">
+
+			:host {
+				display: block;
+				margin: 0 12vw;
+				--app-grid-columns: 4;
+				--app-grid-gutter: 6px;
+				--app-grid-expandible-item-columns: 2;
+				--app-grid-item-height: 14vw;
+			}
+
+			ul {
+				padding: 0;
+				list-style: none;
+			}
+
+			h1 {
+				font-family: 'Roboto', 'Noto', sans-serif;
+				text-align: center;
+				font-size: 18px;
+				line-height: 30px;
+				font-weight: 400;
+				margin: 10px 20px;
+			}
+
+			.item {
+				list-style: none;
+				background-color: white;
+			}
+
+			item:hover {
+
+			}
+
+			@media (min-width: 800px) {
+				.item:nth-child(5n+1) {
+					@apply --app-grid-expandible-item;
+				}
+			}
+
+			@media (max-width: 767px) {
+				:host {
+					--app-grid-columns: 1;
+					--app-grid-gutter: 2px;
+					--app-grid-expandible-item-columns: 1;
+				}
+
+				.item:nth-child(3n+1) {
+					@apply --app-grid-expandible-item;
+				}
+			}
+
+		</style>
+		<div >
+			<ul class="app-grid">
+				<template is="dom-repeat" items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
+					<paper-card class="item" elevation="3"></paper-card>
+				</template>
+			</ul>
+		</div>
+
+
+	</template>
+
+	<script>
+
+			class BlogGridLayout extends Polymer.Element {
+
+				static get is () {
+					return 'blog-grid-layout';
+				}
+
+				static get properties () {
+					return {
+
+						categories : {
+							type : Array
+						},
+
+						visible : {
+							type     : Boolean,
+							observer : '_visibleChanged'
+						}
+
+					};
+				}
+
+				_visibleChanged ( visible ) {
+					if ( visible ) {
+						this.dispatchEvent( new CustomEvent( 'change-section', {
+							bubbles : true, composed : true, detail : { title : 'Home' }
+						} ) );
+					}
+				}
+
+				attached () {
+					this._updateGridStyles = this._updateGridStyles || function () {
+						this.updateStyles();
+					}.bind( this );
+					window.addEventListener( 'resize', this._updateGridStyles );
+				}
+
+				detached () {
+					window.removeEventListener( 'resize', this._updateGridStyles );
+				}
+
+			}
+
+			customElements.define( BlogGridLayout.is, BlogGridLayout );
+
+	</script>
+
+</dom-module>
